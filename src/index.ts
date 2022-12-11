@@ -1,20 +1,31 @@
-import "./lib/db";
-import express from "express";
-import countryRoutes from "./routes/country";
+import express from 'express'
+import https from 'https'
 
-const app = express();
-const port = process.env.PORT || 3333;
+const app = express()
+const port = process.env.PORT || 3333
 
-app.use(express.json());
-app.use(express.raw({ type: "application/vnd.custom-type" }));
-app.use(express.text({ type: "text/html" }));
+app.get('/', function (req, res) {
+  res.send('lol')
+})
 
-app.get("/", async (req, res) => {
-  res.json({ message: "Please visit /countries to view all the countries" });
-});
+app.get('/image', function (req, res) {
+  const url = req.query.url as string
 
-app.use("/countries", countryRoutes);
+  const request = https.get(url, function (response) {
+    const contentType = response.headers['content-type']
+
+    res.setHeader('Content-Type', contentType as string)
+
+    response.pipe(res)
+  })
+
+  request.on('error', function (e) {
+    console.error(e)
+  })
+})
+
+app.listen(3000)
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
-});
+  console.log(`Example app listening at http://localhost:${port}`)
+})
