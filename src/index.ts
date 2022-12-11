@@ -5,7 +5,7 @@ import cors from 'cors'
 const app = express()
 const port = process.env.PORT || 3333
 
-const allowedOrigins = ['addict-next.vercel.app', 'http://localhost']
+const allowedOrigins = ['addict-next.vercel.app', 'http://localhost:3000']
 app.use(
   cors({
     origin: function (origin, callback) {
