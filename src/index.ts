@@ -27,6 +27,7 @@ app.get('/image', (req, res) => {
     }
 
     res.setHeader('Content-Type', contentType)
+    res.setHeader('Cache-Control', 'public, max-age=3600')
 
     response.pipe(res)
   })
